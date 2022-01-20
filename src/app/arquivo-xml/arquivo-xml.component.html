@@ -1,1 +1,10 @@
-<p class="branco grande">XML</p>
+<div class="espacamento-topo">
+  <p-fileUpload  (onSelect)="selecionarArquivos($event)"
+  [multiple]="true" accept=".xml" [showUploadButton]="false" [showCancelButton]="false">
+  <ng-template pTemplate="file">
+      <ul *ngIf="arquivoXmlService.arquivos.length">
+          <li *ngFor="let file of arquivoXmlService.arquivos">{{file.name}} - {{file.size}} bytes</li>
+      </ul>
+  </ng-template>
+</p-fileUpload>
+</div>
