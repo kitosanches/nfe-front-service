@@ -1,5 +1,6 @@
 @import "./css/cores.css";
 @import "./css/fontes.css";
+@import "./css/espacamento.css";
 
 body {
   display: block;
