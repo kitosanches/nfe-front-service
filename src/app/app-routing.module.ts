@@ -8,8 +8,10 @@ const routes: Routes = [
     path: 'nf-e',
     component: ArquivoXmlComponent
   },
-  { path: 'nf-e/:id/duplicatas',
-  component: DuplicatasComponent  },
+  {
+    path: 'nf-e/:id/duplicatas',
+    component: DuplicatasComponent
+  },
   { path: '', redirectTo: '/nf-e', pathMatch: 'full' },
   { path: '**', redirectTo: '/nf-e', pathMatch: 'full' }
 ];
@@ -18,4 +20,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

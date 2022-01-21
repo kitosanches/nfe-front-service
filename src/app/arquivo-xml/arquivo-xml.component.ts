@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as xml2js from 'xml2js';
 import { FileUpload } from 'primeng/fileupload';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-arquivo-xml',
@@ -15,11 +16,11 @@ export class ArquivoXmlComponent implements OnInit {
   nomeArquivoAtual: string = '';
   cols!: any[];
 
-  constructor(private router: Router, public arquivoXmlService: ArquivoXmlService) { }
+  constructor(private router: Router, public arquivoXmlService: ArquivoXmlService, private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.carregarColunas();
-   }
+  }
 
   carregarColunas() {
     this.cols = [
@@ -29,7 +30,7 @@ export class ArquivoXmlComponent implements OnInit {
       { campo: 'nomeDestinatario', header: 'Nome Destinatario' },
       { campo: 'valor', header: 'Valor Nota' },
       { campo: 'status', header: 'Status' }
-  ];
+    ];
   }
 
   selecionarArquivos(event: any) {
@@ -71,4 +72,21 @@ export class ArquivoXmlComponent implements OnInit {
     arquivo.valor = +arquivoJson.valor;
     this.arquivoXmlService.arquivos.push(arquivo);
   }
+
+  confirmar(idArquivo: any) {
+    this.confirmationService.confirm({
+      message: 'Deseja deletar o arquivo?',
+      header: 'Confirmação',
+      acceptLabel: 'Sim',
+      rejectLabel: 'Não',
+      accept: () => {
+       this.removerArquivo(idArquivo);
+      }
+    });
+  }
+
+  removerArquivo(idArquivo: any) {
+    this.arquivoXmlService.arquivos = this.arquivoXmlService.arquivos.filter(arquivo => arquivo.id !== idArquivo);
+  }
+
 }

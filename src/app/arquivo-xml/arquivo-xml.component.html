@@ -1,31 +1,34 @@
 <div class="espacamento-topo">
-  <p-fileUpload #fileUpload  (onSelect)="selecionarArquivos($event)" chooseLabel="Upload"
-  [multiple]="true" accept=".xml" [showUploadButton]="false" [showCancelButton]="false">
-  <ng-template pTemplate="file">
-  </ng-template>
-  <ng-template pTemplate="content">
-    <p-table  [value]="arquivoXmlService.arquivos" [columns]="cols" [paginator]="true" [alwaysShowPaginator]="false"
-    [rows]="10">
-      <ng-template pTemplate="header">
+  <p-fileUpload #fileUpload (onSelect)="selecionarArquivos($event)" chooseLabel="Upload" [multiple]="true" accept=".xml"
+    [showUploadButton]="false" [showCancelButton]="false">
+    <ng-template pTemplate="file">
+    </ng-template>
+    <ng-template pTemplate="content">
+      <p-table [value]="arquivoXmlService.arquivos" [columns]="cols" [paginator]="true" [alwaysShowPaginator]="false"
+        [rows]="10">
+        <ng-template pTemplate="header">
           <tr>
-              <th class="negrito" *ngFor="let col of cols">
-                  {{col.header}}
-              </th>
-              <th></th>
+            <th class="negrito" *ngFor="let col of cols">
+              {{col.header}}
+            </th>
+            <th></th>
           </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-arquivo>
+        </ng-template>
+        <ng-template pTemplate="body" let-arquivo>
           <tr>
-              <td class="pequena" *ngFor="let col of cols">
-                      {{arquivo[col.campo]}}
-              </td>
-              <td class="alinhamento-botoes">
-                <button class="espacamento-botoes" pButton type="button" label="Duplicatas" ></button>
-                <button class="espacamento-botoes" pButton type="button" label="Remover" ></button>
-              </td>
+            <td class="pequena" *ngFor="let col of cols">
+              {{arquivo[col.campo]}}
+            </td>
+            <td class="alinhamento-botoes">
+              <button class="espacamento-botoes" pButton type="button" label="Duplicatas"></button>
+              <button class="espacamento-botoes" pButton type="button" label="Remover" 
+                (click)="confirmar(arquivo.id)"></button>
+            </td>
           </tr>
-      </ng-template>
-  </p-table>
-  </ng-template>
-</p-fileUpload>
+        </ng-template>
+      </p-table>
+    </ng-template>
+  </p-fileUpload>
 </div>
+
+<p-confirmDialog appendTo="body"  [style]="{width: '50vw'}" [baseZIndex]="1000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
