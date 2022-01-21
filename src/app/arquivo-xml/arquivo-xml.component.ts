@@ -1,25 +1,34 @@
+import { ArquivoXmlEnum } from './arquivo-xml.enum';
 import { ArquivoXmlModel } from './arquivo-xml.model';
 import { ArquivoXmlService } from './arquivo-xml.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as xml2js from 'xml2js';
 import { FileUpload } from 'primeng/fileupload';
 import { ConfirmationService } from 'primeng/api';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-arquivo-xml',
   templateUrl: './arquivo-xml.component.html',
   styleUrls: ['./arquivo-xml.component.css'],
 })
-export class ArquivoXmlComponent implements OnInit {
+export class ArquivoXmlComponent implements OnInit, OnDestroy {
   @ViewChild(FileUpload) fileUpload!: FileUpload;
+  readonly TEMPO_PROCESSAMENTO = 12000;
   nomeArquivoAtual: string = '';
   cols!: any[];
+  subscription!: Subscription;
 
   constructor(private router: Router, public arquivoXmlService: ArquivoXmlService, private confirmationService: ConfirmationService) { }
 
   ngOnInit(): void {
     this.carregarColunas();
+    this.processamentoArquivos();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   carregarColunas() {
@@ -31,6 +40,11 @@ export class ArquivoXmlComponent implements OnInit {
       { campo: 'valor', header: 'Valor Nota' },
       { campo: 'status', header: 'Status' }
     ];
+  }
+
+  processamentoArquivos() {
+    const source = interval(this.TEMPO_PROCESSAMENTO);
+    this.subscription = source.subscribe(val => this.processarArquivos());
   }
 
   selecionarArquivos(event: any) {
@@ -80,13 +94,36 @@ export class ArquivoXmlComponent implements OnInit {
       acceptLabel: 'Sim',
       rejectLabel: 'Não',
       accept: () => {
-       this.removerArquivo(idArquivo);
+        this.removerArquivo(idArquivo);
       }
     });
   }
 
   removerArquivo(idArquivo: any) {
     this.arquivoXmlService.arquivos = this.arquivoXmlService.arquivos.filter(arquivo => arquivo.id !== idArquivo);
+  }
+
+  processarArquivos() {
+    if (this.arquivoXmlService.arquivos && this.arquivoXmlService.arquivos.length > 0) {
+      this.arquivoXmlService.arquivos.forEach((arquivo) => {
+        if (arquivo.status === ArquivoXmlEnum.AGUARDANDO_PROCESSAMENTO) {
+          arquivo.status = ArquivoXmlEnum.EM_PROCESSAMENTO;
+          setTimeout(() => {
+            this.validarArquivo(arquivo);
+          }, 20000);
+        }
+      })
+    }
+
+  }
+
+  validarArquivo(arquivo: ArquivoXmlModel) {
+    if (arquivo.id && arquivo.nomeArquivo && arquivo.nomeDestinatario &&
+      arquivo.nomeEmitente && arquivo.numero && arquivo.valor) {
+      arquivo.status = ArquivoXmlEnum.PROCESSADA;
+    } else {
+      arquivo.status = ArquivoXmlEnum.PROCESSADA_COM_ERRO;
+    }
   }
 
 }

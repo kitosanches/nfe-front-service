@@ -17,7 +17,13 @@
         <ng-template pTemplate="body" let-arquivo>
           <tr>
             <td class="pequena" *ngFor="let col of cols">
-              {{arquivo[col.campo]}}
+              <ng-container *ngIf="col.header === 'Valor Nota'; else valorPadrao">
+                {{arquivo[col.campo] | currency:'BRL':'symbol'}}
+              </ng-container>
+              <ng-template #valorPadrao>
+                {{arquivo[col.campo]}}
+              </ng-template>
+              
             </td>
             <td class="alinhamento-botoes">
               <button class="espacamento-botoes" pButton type="button" label="Duplicatas"></button>
