@@ -7,10 +7,11 @@ export class ArquivoXmlModel {
     nomeEmitente!: string;
     nomeDestinatario!: string;
     valor!: number;
-    duplicatas!: any;
+    duplicatas!: any[];
     status!: string;
 
     constructor() {
         this.status = ArquivoXmlEnum.AGUARDANDO_PROCESSAMENTO;
+        this.duplicatas = [];
     }
 }

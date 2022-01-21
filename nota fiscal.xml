@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notaFiscal>
+    <id>1</id>
+    <numero>12345678</numero>
+    <nomeEmitente>TESTE EMITENTE</nomeEmitente>
+    <nomeDestinatario>TESTE DESTINATARIO</nomeDestinatario>
+    <valor>150</valor>
+<duplicatas>
+  <duplicata>
+    <id>1</id>
+    <valor>50</valor>
+    <parcela>1</parcela>
+    <dataVencimento>2022-01-25</dataVencimento>
+  </duplicata>
+  <duplicata>
+    <id>2</id>
+    <valor>50.25</valor>
+    <parcela>2</parcela>
+    <dataVencimento>2022-02-25</dataVencimento>
+  </duplicata>
+  <duplicata>
+    <id>3</id>
+    <valor>49.75</valor>
+    <parcela>3</parcela>
+    <dataVencimento>2022-03-25</dataVencimento>
+  </duplicata>
+</duplicatas>
+</notaFiscal>

@@ -1,1 +1,33 @@
-<p class="branco grande">DUPLICATAS</p>
+<div class="voltar">
+    <button pButton type="button" label="Voltar" (click)="voltar()"></button>
+</div>
+
+<div class="espacamento-topo">
+    <p-table [value]="duplicatas" [columns]="cols" [paginator]="true" [alwaysShowPaginator]="false" [rows]="10">
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="negrito" *ngFor="let col of cols">
+                    {{col.header}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-duplicata>
+            <tr>
+                <td class="pequena" *ngFor="let col of cols">
+                    <ng-container *ngIf="col.header === 'Valor'; else dataTemplate">
+                        {{duplicata[col.campo] | currency:'BRL':'symbol'}}
+                    </ng-container>
+                    <ng-template #dataTemplate>
+                        <ng-container *ngIf="col.header === 'Data de Vencimento'; else valorPadrao">
+                            {{duplicata[col.campo] | date: 'dd/MM/yyyy'}}
+                        </ng-container>
+                        <ng-template #valorPadrao>
+                            {{duplicata[col.campo]}}
+                        </ng-template>
+                    </ng-template>
+
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

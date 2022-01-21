@@ -1,4 +1,10 @@
 <div class="espacamento-topo">
+  <p class="branco media">Para carregar os arquivos clique no botão "Upload". Apenas arquivos no formato XML podem ser
+    carregados.</p>
+  <p class="branco media">Para olhar as duplicadas de um arquivo clique no botão "Duplicadas".</p>
+  <p class="branco media">Para remover um arquivo clique no botão "Remover".</p>
+</div>
+<div class="espacamento-topo">
   <p-fileUpload #fileUpload (onSelect)="selecionarArquivos($event)" chooseLabel="Upload" [multiple]="true" accept=".xml"
     [showUploadButton]="false" [showCancelButton]="false">
     <ng-template pTemplate="file">
@@ -23,11 +29,12 @@
               <ng-template #valorPadrao>
                 {{arquivo[col.campo]}}
               </ng-template>
-              
+
             </td>
             <td class="alinhamento-botoes">
-              <button class="espacamento-botoes" pButton type="button" label="Duplicatas"></button>
-              <button class="espacamento-botoes" pButton type="button" label="Remover" 
+              <button class="espacamento-botoes" pButton type="button" label="Duplicatas"
+                (click)="redirecionarDuplicatas(arquivo)"></button>
+              <button class="espacamento-botoes" pButton type="button" label="Remover"
                 (click)="confirmar(arquivo.id)"></button>
             </td>
           </tr>
@@ -37,4 +44,5 @@
   </p-fileUpload>
 </div>
 
-<p-confirmDialog appendTo="body"  [style]="{width: '50vw'}" [baseZIndex]="1000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+<p-confirmDialog appendTo="body" [style]="{width: '50vw'}" [baseZIndex]="1000" rejectButtonStyleClass="p-button-text">
+</p-confirmDialog>

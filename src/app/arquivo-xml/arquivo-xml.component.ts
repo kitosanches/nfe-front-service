@@ -49,8 +49,12 @@ export class ArquivoXmlComponent implements OnInit, OnDestroy {
 
   selecionarArquivos(event: any) {
     for (let arquivo of event.files) {
-      this.nomeArquivoAtual = arquivo.name;
-      this.leitorArquivosXml(arquivo);
+      const arquivoExistente = this.arquivoXmlService.arquivos
+        .find((arquivoAtual) => arquivoAtual.nomeArquivo === arquivo.name);
+      if (!arquivoExistente) {
+        this.nomeArquivoAtual = arquivo.name;
+        this.leitorArquivosXml(arquivo);
+      }
     }
   }
 
@@ -84,6 +88,7 @@ export class ArquivoXmlComponent implements OnInit, OnDestroy {
     arquivo.nomeDestinatario = arquivoJson.nomeDestinatario;
     arquivo.numero = +arquivoJson.numero;
     arquivo.valor = +arquivoJson.valor;
+    arquivo.duplicatas = arquivoJson.duplicatas.duplicata;
     this.arquivoXmlService.arquivos.push(arquivo);
   }
 
@@ -124,6 +129,12 @@ export class ArquivoXmlComponent implements OnInit, OnDestroy {
     } else {
       arquivo.status = ArquivoXmlEnum.PROCESSADA_COM_ERRO;
     }
+  }
+
+  redirecionarDuplicatas(arquivo: ArquivoXmlModel) {
+    this.router.navigate([`nf-e/${arquivo.id}/duplicatas`], {
+      state: { duplicatas: arquivo.duplicatas }
+    });
   }
 
 }
