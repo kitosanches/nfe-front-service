@@ -23,6 +23,9 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
+            "allowedCommonJsDependencies": [
+              "xml2js"
+           ],
             "styles": [
               "src/styles.css",
               "node_modules/primeng/resources/themes/bootstrap4-dark-blue/theme.css",

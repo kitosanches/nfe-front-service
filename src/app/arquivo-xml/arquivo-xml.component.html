@@ -1,10 +1,31 @@
 <div class="espacamento-topo">
-  <p-fileUpload  (onSelect)="selecionarArquivos($event)"
+  <p-fileUpload #fileUpload  (onSelect)="selecionarArquivos($event)" chooseLabel="Upload"
   [multiple]="true" accept=".xml" [showUploadButton]="false" [showCancelButton]="false">
   <ng-template pTemplate="file">
-      <ul *ngIf="arquivoXmlService.arquivos.length">
-          <li *ngFor="let file of arquivoXmlService.arquivos">{{file.name}} - {{file.size}} bytes</li>
-      </ul>
+  </ng-template>
+  <ng-template pTemplate="content">
+    <p-table  [value]="arquivoXmlService.arquivos" [columns]="cols" [paginator]="true" [alwaysShowPaginator]="false"
+    [rows]="10">
+      <ng-template pTemplate="header">
+          <tr>
+              <th class="negrito" *ngFor="let col of cols">
+                  {{col.header}}
+              </th>
+              <th></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-arquivo>
+          <tr>
+              <td class="pequena" *ngFor="let col of cols">
+                      {{arquivo[col.campo]}}
+              </td>
+              <td class="alinhamento-botoes">
+                <button class="espacamento-botoes" pButton type="button" label="Duplicatas" ></button>
+                <button class="espacamento-botoes" pButton type="button" label="Remover" ></button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
   </ng-template>
 </p-fileUpload>
 </div>

@@ -1,0 +1,11 @@
+:host ::ng-deep .p-fileupload-buttonbar {
+    text-align: end;
+    }
+
+.espacamento-botoes {
+    margin-right: 0.5em;
+}
+
+.alinhamento-botoes {
+    text-align: right !important;
+}
